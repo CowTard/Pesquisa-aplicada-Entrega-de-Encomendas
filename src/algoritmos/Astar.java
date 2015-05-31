@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import elementos.Encomenda;
 import elementos.Estado;
+import elementos.Grafo;
 import elementos.Nó;
 import elementos.Veículo;
 

@@ -12,7 +12,7 @@ import elementos.*;
 
 public class Main {
 	static Scanner input;
-	private static Grafo grafo;
+	private static HashMap<String, Nó> grafo;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -29,10 +29,8 @@ public class Main {
 		path = getInput("Nome do ficheiro de encomendas para nós: ");
 		createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
 		
-		grafo.setNós(nós);
-		
 		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
-		Astar teste = new Astar(grafo);
+		Astar teste = new Astar(new Grafo(grafo));
 		//teste.start(grafo.get("A"), grafo.get("G"));
 		
 	}
