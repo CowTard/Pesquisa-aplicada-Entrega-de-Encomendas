@@ -30,14 +30,15 @@ public class Main {
 		createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
 		
 		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
-		//Astar teste = new Astar(new Grafo(grafo));
+
+		Estado inicial = new Estado(grafo.get("A"), new Veículo(500, 500), 300);
+		Estado fim = new Estado(grafo.get("G"), new Veículo(500, 500), 0);
+		fim.encomendasPorEntregar = 0;
+		Astar teste = new Astar(new Grafo(grafo));
+		ArrayList<Estado> caminhoAPercorrer = teste.executar(inicial, fim);
 		
-		Grafo grf = new Grafo(grafo);
-		ArrayList<Nó> n = grf.obterPossíveisNós(new Estado(grafo.get("A"),new Veículo(100,200),300));
-		for (Nó temp : n){
-			System.out.println(temp.getNome());
-		}
-		//teste.executar(inicial, fim);
+		for (Estado est : caminhoAPercorrer) // TODO: DEBUG
+			System.out.println(est.nóAtual.getNome());
 	}
 	
 	private static String getInput(String text){
