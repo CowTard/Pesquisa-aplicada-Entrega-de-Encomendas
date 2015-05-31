@@ -1,0 +1,9 @@
+A | CD
+B | CD
+C | PA
+D | PR
+E | CD
+F | CD
+G | PR
+H | PR
+I | PA
