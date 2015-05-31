@@ -35,10 +35,10 @@ public class Astar {
 			
 			pesqSucessores:
 			for (Estado sucessor : sucessores) {
-				if (sucessor.equals(fim)) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
+				if (sucessor.encomendasPorEntregar == 0) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
 				
-				sucessor.g = menorF.g + grafo.distânciaAté(menorF.nóAtual, sucessor.nóAtual);
-				sucessor.h = grafo.distânciaAté(sucessor.nóAtual, fim.nóAtual);
+				sucessor.g = menorF.g + heurísticaCusto(menorF, sucessor);
+				sucessor.h = heurísticaCusto(sucessor, fim);
 				sucessor.f = sucessor.g + sucessor.h;
 				
 				for (Estado estAberto : listaAberta)
@@ -54,6 +54,10 @@ public class Astar {
 		}
 		
 		return null;
+	}
+	
+	private int heurísticaCusto(Estado estadoDe, Estado estadoPara) {
+		return (estadoPara.encomendasPorEntregar - estadoDe.encomendasPorEntregar) * 10 + grafo.distânciaAté(estadoDe.nóAtual, estadoPara.nóAtual);
 	}
 	
 	private ArrayList<Estado> sucessores(Estado estado) {

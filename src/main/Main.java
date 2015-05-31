@@ -86,7 +86,7 @@ public class Main {
 		for (int i = 0; i < ficheiro.size(); i++){
 			String[] partes = ficheiro.get(i).split("-");
 
-			grafo.get(partes[0]).addEncomenda(new Encomenda(grafo.get(partes[1]), Integer.parseInt(partes[2])));
+			grafo.get(partes[0]).addEncomenda(new Encomenda((PontoEntrega) grafo.get(partes[1]), Integer.parseInt(partes[2])));
 		}
 	}
 }
