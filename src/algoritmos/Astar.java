@@ -35,7 +35,7 @@ public class Astar {
 			
 			pesqSucessores:
 			for (Estado sucessor : sucessores) {
-				if (sucessor.encomendasPorEntregar == 0) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
+				if (sucessor.equals(fim)) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
 				
 				sucessor.g = menorF.g + grafo.distânciaAté(menorF.nóAtual, sucessor.nóAtual);
 				sucessor.h = grafo.distânciaAté(sucessor.nóAtual, fim.nóAtual);
@@ -65,23 +65,26 @@ public class Astar {
 			
 			novoEstado.veículo.gastarGasolina(grafo.distânciaAté(estado.nóAtual, sucessor));
 			
-			// Descarregar veículo
-			Iterator<Encomenda> itEncsVeículo = novoEstado.veículo.getEncomendas().iterator();
-			while (itEncsVeículo.hasNext()) {
-				Encomenda enc = itEncsVeículo.next();
-				if (enc.getDestino().equals(sucessor)) {
-					novoEstado.veículo.remEncomenda(enc);
-					itEncsVeículo.remove();
-					novoEstado.encomendasPorEntregar -= enc.getVolume();
+			if (sucessor.getClass().getSimpleName().equals("PontoEntrega")) { // Descarregar veículo
+				Iterator<Encomenda> itEncsVeículo = novoEstado.veículo.getEncomendas().iterator();
+				while (itEncsVeículo.hasNext()) {
+					Encomenda enc = itEncsVeículo.next();
+					if (enc.getDestino().equals(sucessor)) {
+						novoEstado.veículo.remEncomenda(enc);
+						itEncsVeículo.remove();
+						novoEstado.encomendasPorEntregar -= enc.getVolume();
+					}
 				}
 			}
-			
-			// Carregar veículo. TODO: só carregar o que conseguir
-			Iterator<Encomenda> itEncsNó = sucessor.getEncomendasDaqui().iterator();
-			while (itEncsNó.hasNext()) {
-				Encomenda enc = itEncsNó.next();
-				novoEstado.veículo.addEncomenda(enc);
-				itEncsNó.remove(); // TODO: verificar se está mesmo a remover encomendas dos nós do grafo
+			else if (sucessor.getClass().getSimpleName().equals("PontoRecolha")) { // Carregar veículo. TODO: só carregar o que conseguir
+				Iterator<Encomenda> itEncsNó = sucessor.getEncomendasDaqui().iterator();
+				while (itEncsNó.hasNext()) {
+					Encomenda enc = itEncsNó.next();
+					novoEstado.veículo.addEncomenda(enc);
+					itEncsNó.remove(); // TODO: verificar se está mesmo a remover encomendas dos nós do grafo
+				}
+			}
+			else { // TODO: Abastecer veículo
 			}
 			
 			novoEstado.pai = estado;
