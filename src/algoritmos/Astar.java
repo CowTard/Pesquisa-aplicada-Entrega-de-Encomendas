@@ -63,7 +63,7 @@ public class Astar {
 		for (Nó sucessor : nósSucessores) {
 			Estado novoEstado = new Estado(sucessor, new Veículo(estado.veículo), estado.encomendasPorEntregar);
 			
-			novoEstado.veículo.gastarGasolina(grafo.distânciaAté(estado.nóAtual, sucessor));
+			novoEstado.veículo.gastarGasolina(0/*TODO: grafo.distânciaAté(estado.nóAtual, sucessor) * .08*/);
 			
 			if (sucessor.getClass().getSimpleName().equals("PontoEntrega")) { // Descarregar veículo
 				Iterator<Encomenda> itEncsVeículo = novoEstado.veículo.getEncomendas().iterator();

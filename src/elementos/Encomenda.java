@@ -1,10 +1,10 @@
 package elementos;
 
 public final class Encomenda {
-	private final PontoRecolha destino;
+	private final PontoEntrega destino;
 	private final int volume;
 	
-	public Encomenda(PontoRecolha destino, int volume) {
+	public Encomenda(PontoEntrega destino, int volume) {
 		this.destino = destino;
 		this.volume = volume;
 	}
@@ -16,7 +16,7 @@ public final class Encomenda {
 		return (destino.equals(enc.destino) && volume == enc.volume);
 	}
 	
-	public PontoRecolha getDestino() {
+	public PontoEntrega getDestino() {
 		return destino;
 	}
 	
