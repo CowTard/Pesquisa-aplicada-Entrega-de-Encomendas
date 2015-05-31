@@ -29,6 +29,8 @@ public class Main {
 		path = getInput("Nome do ficheiro de encomendas para nós: ");
 		createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
 		
+		System.out.println(grafo.get("A").distânciaAté(grafo, grafo.get("B")));
+		
 		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
 		Astar teste = new Astar();
 		//teste.start(grafo.get("A"), grafo.get("G"));
