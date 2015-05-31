@@ -16,4 +16,11 @@ public class Estado {
 		pai = null;
 		f = 0; g = 0; h = 0;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || getClass() != obj.getClass()) return false;
+		Estado est = (Estado) obj;
+		return (nóAtual.getNome().equals(est.nóAtual.getNome()) && encomendasPorEntregar == est.encomendasPorEntregar);
+	}
 }

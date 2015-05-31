@@ -42,9 +42,9 @@ public class Astar {
 				sucessor.f = sucessor.g + sucessor.h;
 				
 				for (Estado estAberto : listaAberta)
-					if (estAberto.f < sucessor.f) continue pesqSucessores;
+					if (estAberto.equals(sucessor) && estAberto.f < sucessor.f) continue pesqSucessores;
 				for (Estado estFechado : listaFechada)
-					if (estFechado.f < sucessor.f) continue pesqSucessores;
+					if (estFechado.equals(sucessor) && estFechado.f < sucessor.f) continue pesqSucessores;
 				
 				listaAberta.add(sucessor);
 			}
