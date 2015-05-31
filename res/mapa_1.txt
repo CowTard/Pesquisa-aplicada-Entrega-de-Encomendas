@@ -1,9 +1,9 @@
-A | PE
-B | PE
-C | PE
-D | PR
-E | PE
-F | PE
-G | PR
-H | PR
-I | PR
+A-PE
+B-PE
+C-PE
+D-PR
+E-PE
+F-PE
+G-PR
+H-PR
+I-PR
