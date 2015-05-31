@@ -16,7 +16,7 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		
-		HashMap<String, Nó> nós = new HashMap<String, Nó>();
+		grafo = new HashMap<String, Nó>();
 		input = new Scanner(System.in);
 		
 		System.out.println("# Pesquisa aplicada à entrega de encomendas");
@@ -31,8 +31,7 @@ public class Main {
 		
 		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
 		Astar teste = new Astar(new Grafo(grafo));
-		//teste.start(grafo.get("A"), grafo.get("G"));
-		
+		//teste.executar(inicial, fim);
 	}
 	
 	private static String getInput(String text){

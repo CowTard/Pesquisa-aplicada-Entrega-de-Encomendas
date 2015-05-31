@@ -34,26 +34,76 @@ public class Grafo {
 		return veículo;
 	}
 	
-	public ArrayList<Nó> obterPossiveisNós(Estado actual){
+	public ArrayList<Nó> obterPossíveisNós(Estado atual){
 		ArrayList<Nó> nósPossiveis = new ArrayList<Nó>();
 		
 		for (Nó temp : nós.values()){
-			if (temp.getNome().equals(actual.nóAtual.getNome())) continue;
-			else if (actual.veículo.getCargaAtual() == 0){
+			if (temp.getNome().equals(atual.nóAtual.getNome())) continue;
+			else if (atual.veículo.getCargaAtual() == 0){
 				if (temp.getClass().getSimpleName().equals("PontoRecolha")) nósPossiveis.add(temp);
-				else if (temp.getClass().getSimpleName().equals("PontoAbastecimento") && actual.veículo.getGasolinaAtual() != actual.veículo.getGasolinaMáx()) nósPossiveis.add(temp);
+				else if (temp.getClass().getSimpleName().equals("PontoAbastecimento") && atual.veículo.getGasolinaAtual() != atual.veículo.getGasolinaMáx()) nósPossiveis.add(temp);
 			}
-			else if (actual.veículo.getGasolinaAtual() - actual.nóAtual.distânciaAté(this.nós,temp)*0.08 > 0){
-				if (actual.veículo.getCargaAtual() == actual.veículo.getCargaMáx()){
+			else if (atual.veículo.getGasolinaAtual() - distânciaAté(atual.nóAtual,temp)*0.08 > 0){
+				if (atual.veículo.getCargaAtual() == atual.veículo.getCargaMáx()){
 					if (!temp.getClass().getSimpleName().equals("PontoRecolha")) nósPossiveis.add(temp);
 				}else nósPossiveis.add(temp);
-			}else if (actual.veículo.getCargaAtual() == actual.veículo.getCargaMáx()){
-				if (actual.veículo.getGasolinaAtual() == actual.veículo.getGasolinaMáx()){
+			}else if (atual.veículo.getCargaAtual() == atual.veículo.getCargaMáx()){
+				if (atual.veículo.getGasolinaAtual() == atual.veículo.getGasolinaMáx()){
 					if (temp.getClass().getSimpleName().equals("PontoEntrega")) nósPossiveis.add(temp);
 				}else nósPossiveis.add(temp);
 			}
 	    }
 		
 		return nósPossiveis;
+	}
+
+	public int distânciaAté(Nó nó1, Nó nó2) throws IllegalArgumentException {
+		if (!nós.containsKey(nó2.getNome())) throw new IllegalArgumentException();
+		else if (nó1.getVizinhos().containsKey(nó2)) return nó1.getVizinhos().get(nó2);
+		else return minimumCost(nó1, nó2);
+	}
+	
+	private int minimumCost(Nó nó1, Nó nó2){
+		ArrayList<Nó> tempNós = new ArrayList<Nó>();
+
+		for (Nó temp : nós.values()) {
+			temp.dist = Integer.MAX_VALUE;
+			temp.previous = null;
+			tempNós.add(temp);
+		}
+		nó1.dist = 0;
+		
+		while(!tempNós.isEmpty()){
+			Nó temp = getMenorDistancia(nó1, tempNós);
+			tempNós.remove(temp);
+			
+			for (Nó temp_2 : temp.getVizinhos().keySet()) {
+				int alt = temp.dist + temp.getVizinhos().get(temp_2);
+				if (alt < temp_2.dist){
+					temp_2.dist = alt;
+					temp_2.previous = temp;
+				}
+			}
+		}
+		Nó temp = nó2;
+		while(temp.previous != null){
+			System.out.print(temp.getNome() + ">");
+			temp = temp.previous;
+		}
+		System.out.println(temp.getNome());
+		System.out.println("DISTANCIA = " + nó2.dist);
+		return nó2.dist;
+	}
+	
+	private Nó getMenorDistancia(Nó nó, ArrayList<Nó> lista){
+		Nó temp = lista.get(0);
+		int menorDist = Integer.MAX_VALUE;
+		for (int i = 0; i < lista.size(); i++){
+			if (menorDist > lista.get(i).dist){
+				menorDist = lista.get(i).dist;
+				temp = lista.get(i);
+			}
+		}
+		return temp;
 	}
 }
