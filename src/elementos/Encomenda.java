@@ -1,8 +1,8 @@
 package elementos;
 
-public class Encomenda {
-	private PontoRecolha destino;
-	private int volume;
+public final class Encomenda {
+	private final PontoRecolha destino;
+	private final int volume;
 	
 	public Encomenda(PontoRecolha destino, int volume) {
 		this.destino = destino;

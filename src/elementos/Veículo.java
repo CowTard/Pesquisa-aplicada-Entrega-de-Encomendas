@@ -17,8 +17,20 @@ public class Veículo {
 		encomendas = new ArrayList<Encomenda>();
 	}
 	
+	public Veículo(Veículo veículo) {
+		this.gasolinaMáx = veículo.gasolinaMáx;
+		this.cargaMáx = veículo.cargaMáx;
+		gasolinaAtual = veículo.gasolinaAtual;
+		cargaAtual = veículo.cargaAtual;
+		encomendas = new ArrayList<Encomenda>(veículo.encomendas);
+	}
+	
 	public void encherDepósito() {
 		gasolinaAtual = gasolinaMáx;
+	}
+	
+	public void gastarGasolina(float gasolinaGasta) {
+		gasolinaAtual -= gasolinaGasta;
 	}
 	
 	public void addEncomenda(Encomenda enc) {

@@ -12,11 +12,11 @@ import elementos.*;
 
 public class Main {
 	static Scanner input;
-	private static HashMap<String, Nó> grafo;
+	private static Grafo grafo;
 	
 	public static void main(String[] args) throws IOException {
 		
-		grafo = new HashMap<String, Nó>();
+		HashMap<String, Nó> nós = new HashMap<String, Nó>();
 		input = new Scanner(System.in);
 		
 		System.out.println("# Pesquisa aplicada à entrega de encomendas");
@@ -29,8 +29,10 @@ public class Main {
 		path = getInput("Nome do ficheiro de encomendas para nós: ");
 		createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
 		
+		grafo.setNós(nós);
+		
 		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
-		Astar teste = new Astar();
+		Astar teste = new Astar(grafo);
 		//teste.start(grafo.get("A"), grafo.get("G"));
 		
 	}
