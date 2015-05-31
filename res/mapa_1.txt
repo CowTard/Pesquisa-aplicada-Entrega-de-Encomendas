@@ -1,9 +1,9 @@
-A | CD
-B | CD
-C | PA
+A | PE
+B | PE
+C | PE
 D | PR
-E | CD
-F | CD
+E | PE
+F | PE
 G | PR
 H | PR
-I | PA
+I | PR
