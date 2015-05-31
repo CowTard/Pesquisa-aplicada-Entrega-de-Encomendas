@@ -37,8 +37,8 @@ public class Astar {
 			for (Estado sucessor : sucessores) {
 				if (sucessor.encomendasPorEntregar == 0) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
 				
-				sucessor.g = menorF.g + distância(menorF, sucessor);
-				sucessor.h = distância(sucessor, fim);
+				sucessor.g = menorF.g + grafo.distânciaAté(menorF.nóAtual, sucessor.nóAtual);
+				sucessor.h = grafo.distânciaAté(sucessor.nóAtual, fim.nóAtual);
 				sucessor.f = sucessor.g + sucessor.h;
 				
 				for (Estado estAberto : listaAberta)
