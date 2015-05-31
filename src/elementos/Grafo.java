@@ -57,13 +57,17 @@ public class Grafo {
 		return nósPossiveis;
 	}
 
-	public int distânciaAté(Nó nó1, Nó nó2) throws IllegalArgumentException {
+	public double distânciaAté(Nó nó1, Nó nó2) throws IllegalArgumentException {
 		if (!nós.containsKey(nó2.getNome())) throw new IllegalArgumentException();
-		else if (nó1.getVizinhos().containsKey(nó2)) return nó1.getVizinhos().get(nó2);
-		else return minimumCost(nó1, nó2);
-	}
+		else return getDistancia(nó1,nó2);
+	}q
 	
+	private double getDistancia(Nó nó1, Nó nó2){
+		return Math.sqrt((nó1.x-nó2.x)*(nó1.x-nó2.x) + (nó1.y-nó2.y)*(nó1.y-nó2.y));
+	}
+	/*
 	private int minimumCost(Nó nó1, Nó nó2){
+		
 		ArrayList<Nó> tempNós = new ArrayList<Nó>();
 
 		for (Nó temp : nós.values()) {
@@ -106,4 +110,5 @@ public class Grafo {
 		}
 		return temp;
 	}
+	*/
 }

@@ -12,7 +12,7 @@ public class Veículo {
 	public Veículo(float gasolinaMáx, int cargaMáx) {		
 		this.gasolinaMáx = gasolinaMáx;
 		this.cargaMáx = cargaMáx;
-		gasolinaAtual = 0;
+		gasolinaAtual = gasolinaMáx;
 		cargaAtual = 0;
 		encomendas = new ArrayList<Encomenda>();
 	}
@@ -43,7 +43,7 @@ public class Veículo {
 	public void remEncomenda(Encomenda enc) {
 		int volumeEncomenda = enc.getVolume();
 		/*if (cargaAtual - volumeEncomenda < 0 || !encomendas.contains(enc)) throw new IllegalArgumentException();*/ // TODO: Descomentar
-		encomendas.remove(enc);
+		//encomendas.remove(enc);
 		cargaAtual -= volumeEncomenda;
 	}
 	

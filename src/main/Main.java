@@ -27,13 +27,12 @@ public class Main {
 		createConn(getNodes("./res/mapa_1_vz.txt")); // + path));
 		
 		path = getInput("Nome do ficheiro de encomendas para nós: ");
-		createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
+		ArrayList<Encomenda> encs = createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
 		
 		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
 
-		Estado inicial = new Estado(grafo.get("A"), new Veículo(500, 500), 300);
-		Estado fim = new Estado(grafo.get("G"), new Veículo(500, 500), 0);
-		fim.encomendasPorEntregar = 0;
+		Estado inicial = new Estado(grafo.get("A"), new Veículo(500, 500), encs );
+		Estado fim = new Estado(grafo.get("G"), new Veículo(500, 500), new ArrayList<Encomenda>());
 		Astar teste = new Astar(new Grafo(grafo));
 		ArrayList<Estado> caminhoAPercorrer = teste.executar(inicial, fim);
 		
@@ -66,9 +65,9 @@ public class Main {
 		for (int i = 0; i < ficheiro.size(); i++){
 			String[] partes = ficheiro.get(i).split("-");
 
-			if (partes[1].equals("PE")) grafo.put(partes[0] ,new PontoEntrega(partes[0]));
-			else if (partes[1].equals("PA")) grafo.put(partes[0] ,new PontoAbastecimento(partes[0]));
-			else grafo.put(partes[0] ,new PontoRecolha(partes[0]));
+			if (partes[1].equals("PE")) grafo.put(partes[0] ,new PontoEntrega(partes[0],Integer.parseInt(partes[2]),Integer.parseInt(partes[3])));
+			else if (partes[1].equals("PA")) grafo.put(partes[0] ,new PontoAbastecimento(partes[0],Integer.parseInt(partes[2]),Integer.parseInt(partes[3])));
+			else grafo.put(partes[0] ,new PontoRecolha(partes[0],Integer.parseInt(partes[2]),Integer.parseInt(partes[3])));
 		}
 	}
 	
@@ -82,11 +81,14 @@ public class Main {
 		}
 	}
 	
-	private static void createEnco(ArrayList<String> ficheiro){
+	private static ArrayList<Encomenda> createEnco(ArrayList<String> ficheiro){
+		ArrayList<Encomenda> encs = new ArrayList<Encomenda>();
 		for (int i = 0; i < ficheiro.size(); i++){
 			String[] partes = ficheiro.get(i).split("-");
-
-			grafo.get(partes[0]).addEncomenda(new Encomenda((PontoEntrega) grafo.get(partes[1]), Integer.parseInt(partes[2])));
+			Encomenda enc = new Encomenda((PontoEntrega) grafo.get(partes[1]), Integer.parseInt(partes[2]));
+			encs.add(enc);
+			grafo.get(partes[0]).addEncomenda(enc);
 		}
+		return encs;
 	}
 }

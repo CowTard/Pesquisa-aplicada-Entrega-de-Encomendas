@@ -12,12 +12,21 @@ public abstract class Nó {
 	public int dist = Integer.MAX_VALUE;
 	public Nó previous = null;
 	
+	/*
+	 * FIM VARIAVEIS DIJKSTRA
+	 */
+	
+	public int x;
+	public int y;
+	
 	private String nome;
 	private Map<Nó, Integer> vizinhos = new HashMap<Nó, Integer>();
 	private ArrayList<Encomenda> encomendasAqui = new ArrayList<Encomenda>();
 	
-	public Nó(String nome) {
+	public Nó(String nome, int x, int y) {
 		this.nome = nome;
+		this.x = x;
+		this.y = y;
 	}
 	
 	@Override
@@ -35,10 +44,6 @@ public abstract class Nó {
 		return nós;
 	}
 	*/
-	
-	public Map<Nó, Integer> getVizinhos() {
-		return vizinhos;
-	}
 	
 	public void addVizinho(Nó novoVizinho, int distância) {
 		vizinhos.put(novoVizinho, distância);
