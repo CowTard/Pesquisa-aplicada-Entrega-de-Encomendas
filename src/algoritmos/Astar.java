@@ -52,6 +52,8 @@ public class Astar {
 			listaFechada.add(menorF);
 			listaAberta.remove(menorF);
 		}
+		
+		return null;
 	}
 	
 	private ArrayList<Estado> sucessores(Estado estado) {
