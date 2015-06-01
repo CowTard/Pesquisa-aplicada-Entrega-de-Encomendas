@@ -86,13 +86,6 @@ public class Grafo {
 				}
 			}
 		}
-		Nó temp = nó2;
-		while(temp.previous != null){
-			//System.out.print(temp.getNome() + ">");
-			temp = temp.previous;
-		}
-		//System.out.println(temp.getNome());
-		//System.out.println("DISTANCIA = " + nó2.dist);
 		return nó2.dist;
 	}
 	

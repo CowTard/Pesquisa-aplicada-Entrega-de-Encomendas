@@ -16,18 +16,13 @@ public abstract class Nó {
 	 * FIM VARIAVEIS DIJKSTRA
 	 */
 	
-	public int x;
-	public int y;
-	
 	private String nome;
 	private Map<Nó, Integer> distanciasMinimas = new HashMap<Nó, Integer>();
 	private Map<Nó, Integer> vizinhos = new HashMap<Nó, Integer>();
 	private ArrayList<Encomenda> encomendasAqui = new ArrayList<Encomenda>();
 	
-	public Nó(String nome, int x, int y) {
+	public Nó(String nome) {
 		this.nome = nome;
-		this.x = x;
-		this.y = y;
 	}
 	
 	@Override

@@ -29,8 +29,8 @@ public class Veículo {
 		gasolinaAtual = gasolinaMáx;
 	}
 	
-	public void gastarGasolina(float gasolinaGasta) {
-		gasolinaAtual -= gasolinaGasta;
+	public void gastarGasolina(double d) {
+		gasolinaAtual -= d;
 	}
 	
 	public void addEncomenda(Encomenda enc) {

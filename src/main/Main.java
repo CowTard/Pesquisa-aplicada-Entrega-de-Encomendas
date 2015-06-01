@@ -32,13 +32,12 @@ public class Main {
 		clearScreen();
 		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
 
-		Estado inicial = new Estado(grafo.get("A"), new Veículo(500, 500), encs );
-		Estado fim = new Estado(grafo.get("G"), new Veículo(500, 500), new ArrayList<Encomenda>());
+		Estado inicial = new Estado(grafo.get("A"), new Veículo(10, 500), encs );
 		Astar teste = new Astar(new Grafo(grafo));
-		ArrayList<Estado> caminhoAPercorrer = teste.executar(inicial, fim);
+		ArrayList<Estado> caminhoAPercorrer = teste.executar(inicial);
 		
 		for (Estado est : caminhoAPercorrer) // TODO: DEBUG
-			System.out.println(est.getNóAtual().getNome());
+			System.out.print(est.getNóAtual().getNome());
 	}
 	
 	private static String getInput(String text){
@@ -66,9 +65,9 @@ public class Main {
 		for (int i = 0; i < ficheiro.size(); i++){
 			String[] partes = ficheiro.get(i).split("-");
 
-			if (partes[1].equals("PE")) grafo.put(partes[0] ,new PontoEntrega(partes[0],Integer.parseInt(partes[2]),Integer.parseInt(partes[3])));
-			else if (partes[1].equals("PA")) grafo.put(partes[0] ,new PontoAbastecimento(partes[0],Integer.parseInt(partes[2]),Integer.parseInt(partes[3])));
-			else grafo.put(partes[0] ,new PontoRecolha(partes[0],Integer.parseInt(partes[2]),Integer.parseInt(partes[3])));
+			if (partes[1].equals("PE")) grafo.put(partes[0] ,new PontoEntrega(partes[0]));
+			else if (partes[1].equals("PA")) grafo.put(partes[0] ,new PontoAbastecimento(partes[0]));
+			else grafo.put(partes[0] ,new PontoRecolha(partes[0]));
 		}
 	}
 	
@@ -78,7 +77,6 @@ public class Main {
 			
 			grafo.get(partes[0]).addVizinho(grafo.get(partes[1]), Integer.parseInt(partes[2]));
 			grafo.get(partes[1]).addVizinho(grafo.get(partes[0]), Integer.parseInt(partes[2]));
-			
 		}
 	}
 	

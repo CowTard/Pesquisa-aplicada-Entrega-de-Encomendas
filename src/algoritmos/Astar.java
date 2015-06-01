@@ -17,7 +17,7 @@ public class Astar {
 		préMapeamento();
 	}
 	
-	public ArrayList<Estado> executar(Estado inicial, Estado fim) {
+	public ArrayList<Estado> executar(Estado inicial) {
 		ArrayList<Estado> listaAberta = new ArrayList<Estado>();
 		ArrayList<Estado> listaFechada = new ArrayList<Estado>();
 		
@@ -73,8 +73,7 @@ public class Astar {
 		for (Nó sucessor : nósSucessores) {
 			Estado novoEstado = new Estado(sucessor, new Veículo(estado.getVeículo()), new ArrayList<Encomenda>(estado.getEncomendasPorRecolher()));
 			
-			novoEstado.getVeículo().gastarGasolina(0/*TODO: grafo.distânciaAté(estado.nóAtual, sucessor) * .08*/);
-
+			novoEstado.getVeículo().gastarGasolina(grafo.distânciaAté(estado.getNóAtual(), sucessor) * .08);
 			if (sucessor.getClass().getSimpleName().equals("PontoEntrega")) { // Descarregar veículo
 				Iterator<Encomenda> itEncsVeículo = novoEstado.getVeículo().getEncomendas().iterator();
 				while (itEncsVeículo.hasNext()) {
@@ -95,7 +94,7 @@ public class Astar {
 					novoEstado.getVeículo().addEncomenda(enc);
 				}
 			}
-			else { // TODO: Abastecer veículo
+			else { novoEstado.getVeículo().encherDepósito();
 			}
 			
 			novoEstado.setPai(estado);
