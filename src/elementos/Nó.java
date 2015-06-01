@@ -20,6 +20,7 @@ public abstract class Nó {
 	public int y;
 	
 	private String nome;
+	private Map<Nó, Integer> distanciasMinimas = new HashMap<Nó, Integer>();
 	private Map<Nó, Integer> vizinhos = new HashMap<Nó, Integer>();
 	private ArrayList<Encomenda> encomendasAqui = new ArrayList<Encomenda>();
 	
@@ -36,17 +37,18 @@ public abstract class Nó {
 		return nome.equals(nó.nome);
 	}
 
-	/*
-	public ArrayList<Nó> getVizinhos() {
-		Set<Nó> nósSet = vizinhos.keySet();
-		ArrayList<Nó> nós = new ArrayList<Nó>();
-		nós.addAll(nósSet);
-		return nós;
+	
+	public Map<Nó, Integer> getVizinhos() {
+		return vizinhos;
 	}
-	*/
+	
 	
 	public void addVizinho(Nó novoVizinho, int distância) {
 		vizinhos.put(novoVizinho, distância);
+	}
+	
+	public void addDistânciaMinima(Nó novoVizinho, int distância){
+		distanciasMinimas.put(novoVizinho, distância);
 	}
 	
 	public ArrayList<Encomenda> getEncomendasDaqui() {

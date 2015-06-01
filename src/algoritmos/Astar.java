@@ -14,6 +14,7 @@ public class Astar {
 	
 	public Astar(Grafo grafo) {
 		this.grafo = grafo;
+		préMapeamento();
 	}
 	
 	public ArrayList<Estado> executar(Estado inicial, Estado fim) {
@@ -41,7 +42,7 @@ public class Astar {
 			for (Estado sucessor : sucessores) {
 				if (300-sucessor.getVolumeEncs()-sucessor.veículo.getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
 				System.out.println("Encomendas: " + sucessor.getVolumeEncs());
-				sucessor.g = menorF.g + heurísticaCusto(menorF, sucessor);
+				sucessor.g = menorF.g + grafo.distânciaAté(menorF.nóAtual, sucessor.nóAtual);
 				sucessor.h = heurísticaCusto(sucessor, fim);
 				sucessor.f = sucessor.g + sucessor.h;
 				
@@ -115,5 +116,16 @@ public class Astar {
 		}
 		caminho.add(0,atual);
 		return caminho;
+	}
+
+	private void préMapeamento(){
+		
+		for(Nó temp : grafo.getNós().values()){
+			for (Nó temp_1 : grafo.getNós().values()){
+				int distance = grafo.distânciaAté(temp, temp_1);
+				temp.addDistânciaMinima(temp,distance);
+				temp_1.addDistânciaMinima(temp_1,distance);
+			}
+		}
 	}
 }
