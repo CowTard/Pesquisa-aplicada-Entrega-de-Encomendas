@@ -1,10 +1,12 @@
 package elementos;
 
 public final class Encomenda {
+	private final PontoRecolha origem;
 	private final PontoEntrega destino;
 	private final int volume;
 	
-	public Encomenda(PontoEntrega destino, int volume) {
+	public Encomenda(PontoRecolha origem, PontoEntrega destino, int volume) {
+		this.origem = origem;
 		this.destino = destino;
 		this.volume = volume;
 	}
@@ -22,5 +24,9 @@ public final class Encomenda {
 	
 	public int getVolume() {
 		return volume;
+	}
+	
+	public PontoRecolha getOrigem(){
+		return origem;
 	}
 }

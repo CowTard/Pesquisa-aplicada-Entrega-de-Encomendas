@@ -34,7 +34,7 @@ public class Astar {
 			ArrayList<Estado> sucessores = sucessores(menorF);
 			
 			//System.out.print(menorF.nóAtual.getNome() + "> ");
-			for(int i = 0; i < sucessores.size(); i++)
+			//for(int i = 0; i < sucessores.size(); i++)
 				//System.out.print(sucessores.get(i).nóAtual.getNome());
 			
 			//System.out.println();
@@ -43,7 +43,7 @@ public class Astar {
 				if (300-sucessor.getVolumeEncs()-sucessor.veículo.getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
 				System.out.println("Encomendas: " + sucessor.getVolumeEncs());
 				sucessor.g = menorF.g + grafo.distânciaAté(menorF.nóAtual, sucessor.nóAtual);
-				sucessor.h = heurísticaCusto(sucessor, fim);
+				sucessor.h = heurísticaCusto(sucessor);
 				sucessor.f = sucessor.g + sucessor.h;
 				
 				for (Estado estAberto : listaAberta)
@@ -61,8 +61,13 @@ public class Astar {
 		return null;
 	}
 	
-	private double heurísticaCusto(Estado estadoDe, Estado estadoPara) {
-		return (estadoDe.getVolumeEncs()-estadoDe.veículo.getCargaAtual() - (estadoPara.getVolumeEncs()-estadoPara.veículo.getCargaAtual())) + grafo.distânciaAté(estadoDe.nóAtual, estadoPara.nóAtual);
+	private double heurísticaCusto(Estado estado){
+		
+		Nó origem = estado.encomendasPorRecolher.get(0).getOrigem();
+		int distanciaActualArecolha = grafo.distânciaAté(estado.nóAtual, origem);
+		int distanciaOrigemADestino = grafo.distânciaAté(origem, estado.encomendasPorRecolher.get(0).getDestino());
+		
+		return distanciaActualArecolha + distanciaOrigemADestino;
 	}
 	
 	private ArrayList<Estado> sucessores(Estado estado) {

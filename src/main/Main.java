@@ -85,7 +85,7 @@ public class Main {
 		ArrayList<Encomenda> encs = new ArrayList<Encomenda>();
 		for (int i = 0; i < ficheiro.size(); i++){
 			String[] partes = ficheiro.get(i).split("-");
-			Encomenda enc = new Encomenda((PontoEntrega) grafo.get(partes[1]), Integer.parseInt(partes[2]));
+			Encomenda enc = new Encomenda((PontoRecolha) grafo.get(partes[0]), (PontoEntrega) grafo.get(partes[1]), Integer.parseInt(partes[2]));
 			encs.add(enc);
 			grafo.get(partes[0]).addEncomenda(enc);
 		}
