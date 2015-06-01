@@ -29,15 +29,15 @@ public class Main {
 		path = getInput("Nome do ficheiro de encomendas para nós: ");
 		ArrayList<Encomenda> encs = createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
 		
-		clearScreen();
-		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
-
-		Estado inicial = new Estado(grafo.get("A"), new Veículo(10, 500), encs );
+		Estado inicial = new Estado(grafo.get("A"), new Veículo(10, 299), encs );
 		Astar teste = new Astar(new Grafo(grafo));
 		ArrayList<Estado> caminhoAPercorrer = teste.executar(inicial);
 		
-		for (Estado est : caminhoAPercorrer) // TODO: DEBUG
-			System.out.print(est.getNóAtual().getNome());
+		if (caminhoAPercorrer == null) {System.out.println("Ocorreu um erro! Poderá não ter combustível para partir."); return;}
+		
+		System.out.println("\n\n## Caminho percorrido {Nó, CargaAtual, EncomendasPorRecolher, Gasolina}");
+		for (Estado est : caminhoAPercorrer)
+			System.out.println(" {" + est.getNóAtual().getNome() + " , " + est.getVeículo().getCargaAtual() + " , " + est.getVolumeEncomendasPorRecolher() + " , " + est.getVeículo().getGasolinaAtual() + "} ");
 	}
 	
 	private static String getInput(String text){
@@ -89,10 +89,5 @@ public class Main {
 			grafo.get(partes[0]).addEncomenda(enc);
 		}
 		return encs;
-	}
-
-	private static void clearScreen(){
-		for(int i = 0; i < 50; i++)
-			System.out.println();
 	}
 }

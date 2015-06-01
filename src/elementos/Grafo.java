@@ -44,23 +44,22 @@ public class Grafo {
 				int cargaMáx = atual.getVeículo().getCargaMáx();
 				float gasolinaAtual = atual.getVeículo().getGasolinaAtual();
 				float gasolinaMáx = atual.getVeículo().getGasolinaMáx();
-
-				if (cargaAtual == 0) {
-					if (temp.getClass().getSimpleName().equals("PontoRecolha")) nósPossiveis.add(temp);
-					else if (temp.getClass().getSimpleName().equals("PontoAbastecimento") && gasolinaAtual != gasolinaMáx) nósPossiveis.add(temp);
-				}
-				else if (gasolinaAtual - distânciaAté(atual.getNóAtual(), temp) * 0.08 > 0) {
-					if (cargaAtual == cargaMáx) {
-						if (!temp.getClass().getSimpleName().equals("PontoRecolha")) nósPossiveis.add(temp);
+				
+				if (cargaAtual == 0 && temp.getClass().getSimpleName().equals("PontoEntrega")) continue;
+				
+				int cargaPossivel = cargaMáx - cargaAtual;
+				int encomendasPossiveis = 0;
+				
+				for(int i= 0; i < temp.getEncomendasDaqui().size();i++){
+					if ( temp.getEncomendasDaqui().get(i).getVolume() <= cargaPossivel) {
+						encomendasPossiveis++;
+						break;
 					}
-					else nósPossiveis.add(temp);
 				}
-				else if (cargaAtual == cargaMáx) {
-					if (gasolinaAtual == gasolinaMáx) {
-						if (temp.getClass().getSimpleName().equals("PontoEntrega")) nósPossiveis.add(temp);
-					}
-					else nósPossiveis.add(temp);
-				}
+				if (temp.getClass().getSimpleName().equals("PontoRecolha") && encomendasPossiveis == 0) continue;
+				if (gasolinaAtual - distânciaAté(atual.getNóAtual(), temp)*0.08 <= 0) continue;
+				
+				nósPossiveis.add(temp);
 			}
 		}
 

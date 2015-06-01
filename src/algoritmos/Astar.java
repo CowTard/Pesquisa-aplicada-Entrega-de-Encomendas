@@ -86,15 +86,12 @@ public class Astar {
 				}
 			}
 			else if (sucessor.getClass().getSimpleName().equals("PontoRecolha")) { // Carregar veículo
-				int volumeCarregado = 0;
-				
 				Iterator<Encomenda> itEncsNó = sucessor.getEncomendasDaqui().iterator();
 				while (itEncsNó.hasNext()) {
 					Encomenda enc = itEncsNó.next();
 					
 					if (!novoEstado.getEncomendasPorRecolher().contains(enc)) continue; // Se a encomenda já foi carregada previamente
-					if (volumeCarregado + enc.getVolume() > novoEstado.getVeículo().getCargaMáx()) continue; // Se a encomenda for exceder o limite do veículo
-					volumeCarregado += enc.getVolume();
+					if (novoEstado.getVeículo().getCargaAtual() + enc.getVolume() > novoEstado.getVeículo().getCargaMáx()) continue; // Se a encomenda for exceder o limite do veículo
 					
 					novoEstado.getEncomendasPorRecolher().remove(enc);
 					novoEstado.getVeículo().addEncomenda(enc);
