@@ -29,7 +29,7 @@ public class Main {
 		path = getInput("Nome do ficheiro de encomendas para nós: ");
 		ArrayList<Encomenda> encs = createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
 		
-		Estado inicial = new Estado(grafo.get("A"), new Veículo(10, 299), encs );
+		Estado inicial = new Estado(grafo.get("A"), new Veículo(10, 300), encs);
 		Astar teste = new Astar(new Grafo(grafo));
 		ArrayList<Estado> caminhoAPercorrer = teste.executar(inicial);
 		
