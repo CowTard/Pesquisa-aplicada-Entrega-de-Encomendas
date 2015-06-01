@@ -29,6 +29,7 @@ public class Main {
 		path = getInput("Nome do ficheiro de encomendas para nós: ");
 		ArrayList<Encomenda> encs = createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
 		
+		clearScreen();
 		//Astar teste = new Astar(grafo.get("A"), grafo.get("E"));
 
 		Estado inicial = new Estado(grafo.get("A"), new Veículo(500, 500), encs );
@@ -92,4 +93,8 @@ public class Main {
 		return encs;
 	}
 
+	private static void clearScreen(){
+		for(int i = 0; i < 50; i++)
+			System.out.println();
+	}
 }

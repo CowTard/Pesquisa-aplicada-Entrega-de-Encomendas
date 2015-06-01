@@ -33,15 +33,17 @@ public class Astar {
 			
 			ArrayList<Estado> sucessores = sucessores(menorF);
 			
-			//System.out.print(menorF.nóAtual.getNome() + "> ");
-			//for(int i = 0; i < sucessores.size(); i++)
-				//System.out.print(sucessores.get(i).nóAtual.getNome());
+			/*
+			System.out.print(menorF.nóAtual.getNome() + "> ");
+			for(int i = 0; i < sucessores.size(); i++)
+				System.out.print(sucessores.get(i).nóAtual.getNome());
 			
-			//System.out.println();
+			System.out.println();
+			*/
 			pesqSucessores:
 			for (Estado sucessor : sucessores) {
-				if (300-sucessor.getVolumeEncs()-sucessor.veículo.getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
-				System.out.println("Encomendas: " + sucessor.getVolumeEncs());
+				if (sucessor.getVolumeEncs() == 0 && sucessor.veículo.getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
+				//System.out.println("Encomendas: " + sucessor.getVolumeEncs());
 				sucessor.g = menorF.g + grafo.distânciaAté(menorF.nóAtual, sucessor.nóAtual);
 				sucessor.h = heurísticaCusto(sucessor);
 				sucessor.f = sucessor.g + sucessor.h;
@@ -63,11 +65,16 @@ public class Astar {
 	
 	private double heurísticaCusto(Estado estado){
 		
-		Nó origem = estado.encomendasPorRecolher.get(0).getOrigem();
-		int distanciaActualArecolha = grafo.distânciaAté(estado.nóAtual, origem);
-		int distanciaOrigemADestino = grafo.distânciaAté(origem, estado.encomendasPorRecolher.get(0).getDestino());
+		if (!estado.encomendasPorRecolher.isEmpty()){
+			Nó origem = estado.encomendasPorRecolher.get(0).getOrigem();
+			int distanciaActualArecolha = grafo.distânciaAté(estado.nóAtual, origem);
+			int distanciaOrigemADestino = grafo.distânciaAté(origem, estado.encomendasPorRecolher.get(0).getDestino());
 		
-		return distanciaActualArecolha + distanciaOrigemADestino;
+			return distanciaActualArecolha + distanciaOrigemADestino;
+		} else {
+			Nó destino = estado.veículo.getEncomendas().get(0).getDestino();
+			return grafo.distânciaAté(estado.nóAtual, destino);
+		}
 	}
 	
 	private ArrayList<Estado> sucessores(Estado estado) {
