@@ -74,6 +74,7 @@ public class Astar {
 			Estado novoEstado = new Estado(sucessor, new Veículo(estado.getVeículo()), new ArrayList<Encomenda>(estado.getEncomendasPorRecolher()));
 			
 			novoEstado.getVeículo().gastarGasolina(grafo.distânciaAté(estado.getNóAtual(), sucessor) * .08);
+			
 			if (sucessor.getClass().getSimpleName().equals("PontoEntrega")) { // Descarregar veículo
 				Iterator<Encomenda> itEncsVeículo = novoEstado.getVeículo().getEncomendas().iterator();
 				while (itEncsVeículo.hasNext()) {
@@ -84,11 +85,17 @@ public class Astar {
 					}
 				}
 			}
-			else if (sucessor.getClass().getSimpleName().equals("PontoRecolha")) {
+			else if (sucessor.getClass().getSimpleName().equals("PontoRecolha")) { // Carregar veículo
+				int volumeCarregado = 0;
+				
 				Iterator<Encomenda> itEncsNó = sucessor.getEncomendasDaqui().iterator();
 				while (itEncsNó.hasNext()) {
 					Encomenda enc = itEncsNó.next();
-					if (!novoEstado.getEncomendasPorRecolher().contains(enc)) continue;
+					
+					if (!novoEstado.getEncomendasPorRecolher().contains(enc)) continue; // Se a encomenda já foi carregada previamente
+					if (volumeCarregado + enc.getVolume() > novoEstado.getVeículo().getCargaMáx()) continue; // Se a encomenda for exceder o limite do veículo
+					volumeCarregado += enc.getVolume();
+					
 					novoEstado.getEncomendasPorRecolher().remove(enc);
 					novoEstado.getVeículo().addEncomenda(enc);
 				}
