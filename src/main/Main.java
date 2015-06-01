@@ -38,7 +38,7 @@ public class Main {
 		ArrayList<Estado> caminhoAPercorrer = teste.executar(inicial, fim);
 		
 		for (Estado est : caminhoAPercorrer) // TODO: DEBUG
-			System.out.println(est.nóAtual.getNome());
+			System.out.println(est.getNóAtual().getNome());
 	}
 	
 	private static String getInput(String text){

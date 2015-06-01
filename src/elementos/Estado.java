@@ -3,13 +3,13 @@ package elementos;
 import java.util.ArrayList;
 
 public class Estado {
-	public Nó nóAtual;
-	public Veículo veículo;
-	public ArrayList<Encomenda> encomendasPorRecolher;
+	private Nó nóAtual;
+	private Veículo veículo;
+	private ArrayList<Encomenda> encomendasPorRecolher;
 	
-	public Estado pai;
+	private Estado pai;
 	
-	public double f, g, h;
+	private int f, g, h;
 	
 	public Estado(Nó nóAtual, Veículo veículo, ArrayList<Encomenda> encomendasPorRecolher) {
 		this.nóAtual = nóAtual;
@@ -23,13 +23,57 @@ public class Estado {
 	public boolean equals(Object obj) {
 		if (obj == null || getClass() != obj.getClass()) return false;
 		Estado est = (Estado) obj;
-		return (nóAtual.getNome().equals(est.nóAtual.getNome()) && getVolumeEncs() == est.getVolumeEncs());
+		return (nóAtual.getNome().equals(est.nóAtual.getNome()) && getVolumeEncomendasPorRecolher() == est.getVolumeEncomendasPorRecolher() && veículo.getCargaAtual() == est.veículo.getCargaAtual());
 	}
 	
-	public int getVolumeEncs(){
+	public Nó getNóAtual() {
+		return nóAtual;
+	}
+	
+	public Veículo getVeículo() {
+		return veículo;
+	}
+	
+	public ArrayList<Encomenda> getEncomendasPorRecolher() {
+		return encomendasPorRecolher;
+	}
+	
+	public int getVolumeEncomendasPorRecolher() {
 		int volume = 0;
 		for (Encomenda temp: encomendasPorRecolher)
 			volume += temp.getVolume();
 		return volume;
+	}
+	
+	public Estado getPai() {
+		return pai;
+	}
+	
+	public void setPai(Estado pai) {
+		this.pai = pai;
+	}
+	
+	public int getF() {
+		return f;
+	}
+	
+	public void setF(int f) {
+		this.f = f;
+	}
+	
+	public int getG() {
+		return g;
+	}
+	
+	public void setG(int g) {
+		this.g = g;
+	}
+	
+	public int getH() {
+		return h;
+	}
+	
+	public void setH(int h) {
+		this.h = h;
 	}
 }

@@ -38,17 +38,17 @@ public class Grafo {
 		ArrayList<Nó> nósPossiveis = new ArrayList<Nó>();
 		
 		for (Nó temp : nós.values()){
-			if (temp.getNome().equals(atual.nóAtual.getNome())) continue;
-			else if (atual.veículo.getCargaAtual() == 0){
+			if (temp.getNome().equals(atual.getNóAtual().getNome())) continue;
+			else if (atual.getVeículo().getCargaAtual() == 0){
 				if (temp.getClass().getSimpleName().equals("PontoRecolha")) nósPossiveis.add(temp);
-				else if (temp.getClass().getSimpleName().equals("PontoAbastecimento") && atual.veículo.getGasolinaAtual() != atual.veículo.getGasolinaMáx()) nósPossiveis.add(temp);
+				else if (temp.getClass().getSimpleName().equals("PontoAbastecimento") && atual.getVeículo().getGasolinaAtual() != atual.getVeículo().getGasolinaMáx()) nósPossiveis.add(temp);
 			}
-			else if (atual.veículo.getGasolinaAtual() - distânciaAté(atual.nóAtual,temp)*0.08 > 0){
-				if (atual.veículo.getCargaAtual() == atual.veículo.getCargaMáx()){
+			else if (atual.getVeículo().getGasolinaAtual() - distânciaAté(atual.getNóAtual(),temp)*0.08 > 0){
+				if (atual.getVeículo().getCargaAtual() == atual.getVeículo().getCargaMáx()){
 					if (!temp.getClass().getSimpleName().equals("PontoRecolha")) nósPossiveis.add(temp);
 				}else nósPossiveis.add(temp);
-			}else if (atual.veículo.getCargaAtual() == atual.veículo.getCargaMáx()){
-				if (atual.veículo.getGasolinaAtual() == atual.veículo.getGasolinaMáx()){
+			}else if (atual.getVeículo().getCargaAtual() == atual.getVeículo().getCargaMáx()){
+				if (atual.getVeículo().getGasolinaAtual() == atual.getVeículo().getGasolinaMáx()){
 					if (temp.getClass().getSimpleName().equals("PontoEntrega")) nósPossiveis.add(temp);
 				}else nósPossiveis.add(temp);
 			}

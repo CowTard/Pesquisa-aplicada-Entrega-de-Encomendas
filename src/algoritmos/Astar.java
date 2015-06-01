@@ -21,59 +21,48 @@ public class Astar {
 		ArrayList<Estado> listaAberta = new ArrayList<Estado>();
 		ArrayList<Estado> listaFechada = new ArrayList<Estado>();
 		
-		inicial.f = 0;
+		inicial.setF(0);
 		listaAberta.add(inicial);
 		
 		while (!listaAberta.isEmpty()) {
 			Estado menorF = listaAberta.get(0);
 			for (Estado est : listaAberta)
-				if (est.f < menorF.f) menorF = est;
-			//System.out.println(menorF.nóAtual.getNome());
+				if (est.getF() < menorF.getF()) menorF = est;
 			listaAberta.remove(menorF);
 			
 			ArrayList<Estado> sucessores = sucessores(menorF);
 			
-			/*
-			System.out.print(menorF.nóAtual.getNome() + "> ");
-			for(int i = 0; i < sucessores.size(); i++)
-				System.out.print(sucessores.get(i).nóAtual.getNome());
-			
-			System.out.println();
-			*/
 			pesqSucessores:
 			for (Estado sucessor : sucessores) {
-				if (sucessor.getVolumeEncs() == 0 && sucessor.veículo.getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor); // Se chegou ao estado final
-				//System.out.println("Encomendas: " + sucessor.getVolumeEncs());
-				sucessor.g = menorF.g + grafo.distânciaAté(menorF.nóAtual, sucessor.nóAtual);
-				sucessor.h = heurísticaCusto(sucessor);
-				sucessor.f = sucessor.g + sucessor.h;
+				if (sucessor.getVolumeEncomendasPorRecolher() == 0 && sucessor.getVeículo().getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor);
+				sucessor.setG(menorF.getG() + grafo.distânciaAté(menorF.getNóAtual(), sucessor.getNóAtual()));
+				sucessor.setH(heurísticaCusto(sucessor));
+				sucessor.setF(sucessor.getG() + sucessor.getH());
 				
 				for (Estado estAberto : listaAberta)
-					if (estAberto.equals(sucessor) && estAberto.f < sucessor.f) continue pesqSucessores;
+					if (estAberto.equals(sucessor) && estAberto.getF() < sucessor.getF()) continue pesqSucessores;
 				for (Estado estFechado : listaFechada)
-					if (estFechado.equals(sucessor) && estFechado.f < sucessor.f) continue pesqSucessores;
+					if (estFechado.equals(sucessor) && estFechado.getF() < sucessor.getF()) continue pesqSucessores;
 				
 				listaAberta.add(sucessor);
 			}
 			
 			listaFechada.add(menorF);
-			listaAberta.remove(menorF);
 		}
 		
 		return null;
 	}
 	
-	private double heurísticaCusto(Estado estado){
+	private int heurísticaCusto(Estado estado) {
+		if (!estado.getEncomendasPorRecolher().isEmpty()) {
+			Nó origem = estado.getEncomendasPorRecolher().get(0).getOrigem();
+			int distânciaAtualARecolha = grafo.distânciaAté(estado.getNóAtual(), origem);
+			int distânciaOrigemADestino = grafo.distânciaAté(origem, estado.getEncomendasPorRecolher().get(0).getDestino());
 		
-		if (!estado.encomendasPorRecolher.isEmpty()){
-			Nó origem = estado.encomendasPorRecolher.get(0).getOrigem();
-			int distanciaActualArecolha = grafo.distânciaAté(estado.nóAtual, origem);
-			int distanciaOrigemADestino = grafo.distânciaAté(origem, estado.encomendasPorRecolher.get(0).getDestino());
-		
-			return distanciaActualArecolha + distanciaOrigemADestino;
+			return distânciaAtualARecolha + distânciaOrigemADestino;
 		} else {
-			Nó destino = estado.veículo.getEncomendas().get(0).getDestino();
-			return grafo.distânciaAté(estado.nóAtual, destino);
+			Nó destino = estado.getVeículo().getEncomendas().get(0).getDestino();
+			return grafo.distânciaAté(estado.getNóAtual(), destino);
 		}
 	}
 	
@@ -82,16 +71,16 @@ public class Astar {
 		ArrayList<Estado> estadosSucessores = new ArrayList<Estado>();
 		
 		for (Nó sucessor : nósSucessores) {
-			Estado novoEstado = new Estado(sucessor, new Veículo(estado.veículo), new ArrayList<Encomenda>(estado.encomendasPorRecolher));
+			Estado novoEstado = new Estado(sucessor, new Veículo(estado.getVeículo()), new ArrayList<Encomenda>(estado.getEncomendasPorRecolher()));
 			
-			novoEstado.veículo.gastarGasolina(0/*TODO: grafo.distânciaAté(estado.nóAtual, sucessor) * .08*/);
+			novoEstado.getVeículo().gastarGasolina(0/*TODO: grafo.distânciaAté(estado.nóAtual, sucessor) * .08*/);
 
 			if (sucessor.getClass().getSimpleName().equals("PontoEntrega")) { // Descarregar veículo
-				Iterator<Encomenda> itEncsVeículo = novoEstado.veículo.getEncomendas().iterator();
+				Iterator<Encomenda> itEncsVeículo = novoEstado.getVeículo().getEncomendas().iterator();
 				while (itEncsVeículo.hasNext()) {
 					Encomenda enc = itEncsVeículo.next();
 					if (enc.getDestino().equals(sucessor)) {
-						novoEstado.veículo.remEncomenda(enc);
+						novoEstado.getVeículo().remEncomenda(enc);
 						itEncsVeículo.remove();
 						//System.out.println("Encomendas por entregar:" + novoEstado.encomendasPorEntregar);
 					}
@@ -101,15 +90,15 @@ public class Astar {
 				Iterator<Encomenda> itEncsNó = sucessor.getEncomendasDaqui().iterator();
 				while (itEncsNó.hasNext()) {
 					Encomenda enc = itEncsNó.next();
-					novoEstado.encomendasPorRecolher.remove(enc);
-					novoEstado.veículo.addEncomenda(enc);
-					//itEncsNó.remove(); // TODO: verificar se está mesmo a remover encomendas dos nós do grafo
+					if (!novoEstado.getEncomendasPorRecolher().contains(enc)) continue;
+					novoEstado.getEncomendasPorRecolher().remove(enc);
+					novoEstado.getVeículo().addEncomenda(enc);
 				}
 			}
 			else { // TODO: Abastecer veículo
 			}
 			
-			novoEstado.pai = estado;
+			novoEstado.setPai(estado);
 			
 			estadosSucessores.add(novoEstado);
 		}
@@ -122,9 +111,9 @@ public class Astar {
 		
 		Estado atual = fim;
 		
-		while (atual.pai != null) {
+		while (atual.getPai() != null) {
 			caminho.add(0, atual);
-			atual = atual.pai;
+			atual = atual.getPai();
 		}
 		caminho.add(0,atual);
 		return caminho;
