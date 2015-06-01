@@ -67,7 +67,7 @@ public class Astar {
 	}
 	
 	private ArrayList<Estado> sucessores(Estado estado) {
-		ArrayList<Nó> nósSucessores = grafo.obterPossíveisNós(estado);
+		ArrayList<Nó> nósSucessores = grafo.obterNósPossíveis(estado);
 		ArrayList<Estado> estadosSucessores = new ArrayList<Estado>();
 		
 		for (Nó sucessor : nósSucessores) {
@@ -79,13 +79,12 @@ public class Astar {
 				while (itEncsVeículo.hasNext()) {
 					Encomenda enc = itEncsVeículo.next();
 					if (enc.getDestino().equals(sucessor)) {
-						novoEstado.getVeículo().remEncomenda(enc);
+						novoEstado.getVeículo().decCargaEncomenda(enc);
 						itEncsVeículo.remove();
-						//System.out.println("Encomendas por entregar:" + novoEstado.encomendasPorEntregar);
 					}
 				}
 			}
-			else if (sucessor.getClass().getSimpleName().equals("PontoRecolha")) { // Carregar veículo. TODO: só carregar o que conseguir
+			else if (sucessor.getClass().getSimpleName().equals("PontoRecolha")) {
 				Iterator<Encomenda> itEncsNó = sucessor.getEncomendasDaqui().iterator();
 				while (itEncsNó.hasNext()) {
 					Encomenda enc = itEncsNó.next();
@@ -94,8 +93,7 @@ public class Astar {
 					novoEstado.getVeículo().addEncomenda(enc);
 				}
 			}
-			else { novoEstado.getVeículo().encherDepósito();
-			}
+			else novoEstado.getVeículo().encherDepósito();
 			
 			novoEstado.setPai(estado);
 			
@@ -118,10 +116,9 @@ public class Astar {
 		return caminho;
 	}
 
-	private void préMapeamento(){
-		
-		for(Nó temp : grafo.getNós().values()){
-			for (Nó temp_1 : grafo.getNós().values()){
+	private void préMapeamento() {
+		for (Nó temp : grafo.getNós().values()) {
+			for (Nó temp_1 : grafo.getNós().values()) {
 				int distance = grafo.distânciaAté(temp, temp_1);
 				temp.addDistânciaMinima(temp,distance);
 				temp_1.addDistânciaMinima(temp_1,distance);

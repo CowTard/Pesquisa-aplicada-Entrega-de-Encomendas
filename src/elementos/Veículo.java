@@ -35,21 +35,15 @@ public class Veículo {
 	
 	public void addEncomenda(Encomenda enc) {
 		int volumeEncomenda = enc.getVolume();
-		/*if (cargaAtual + volumeEncomenda > cargaMáx) throw new IllegalArgumentException();*/ // TODO: Descomentar
+		if (cargaAtual + volumeEncomenda > cargaMáx) throw new IllegalArgumentException();
 		encomendas.add(enc);
 		cargaAtual += volumeEncomenda;
 	}
 	
-	public void remEncomenda(Encomenda enc) {
+	public void decCargaEncomenda(Encomenda enc) {
 		int volumeEncomenda = enc.getVolume();
-		/*if (cargaAtual - volumeEncomenda < 0 || !encomendas.contains(enc)) throw new IllegalArgumentException();*/ // TODO: Descomentar
-		//encomendas.remove(enc);
+		if (cargaAtual - volumeEncomenda < 0 || !encomendas.contains(enc)) throw new IllegalArgumentException();
 		cargaAtual -= volumeEncomenda;
-	}
-	
-	public void remEncomendas(ArrayList<Encomenda> encs) {
-		for (Encomenda enc : encs)
-			remEncomenda(enc);
 	}
 	
 	public float getGasolinaMáx() {
@@ -60,11 +54,11 @@ public class Veículo {
 		return gasolinaAtual;
 	}
 	
-	public float getCargaMáx() {
+	public int getCargaMáx() {
 		return cargaMáx;
 	}
 	
-	public float getCargaAtual() {
+	public int getCargaAtual() {
 		return cargaAtual;
 	}
 	
