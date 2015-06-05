@@ -1,13 +1,9 @@
 package algoritmos;
 
+import elementos.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import elementos.Encomenda;
-import elementos.Estado;
-import elementos.Grafo;
-import elementos.Nó;
-import elementos.Veículo;
 
 public class Astar {
 	private Grafo grafo;
@@ -34,9 +30,9 @@ public class Astar {
 			
 			pesqSucessores:
 			for (Estado sucessor : sucessores) {
-				if (sucessor.getVolumeEncomendasPorRecolher() == 0 && sucessor.getVeículo().getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor);
-				sucessor.setG(menorF.getG() + grafo.distânciaAté(menorF.getNóAtual(), sucessor.getNóAtual()));
-				sucessor.setH(heurísticaCusto(sucessor));
+				if (sucessor.getVolumeEncomendasPorRecolher() == 0 && sucessor.getVeiculo().getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor);
+				sucessor.setG(menorF.getG() + grafo.distânciaAté(menorF.getNoAtual(), sucessor.getNoAtual()));
+				sucessor.setH(heuristicaCusto(sucessor));
 				sucessor.setF(sucessor.getG() + sucessor.getH());
 				
 				for (Estado estAberto : listaAberta)
@@ -53,51 +49,51 @@ public class Astar {
 		return null;
 	}
 	
-	private int heurísticaCusto(Estado estado) {
+	private int heuristicaCusto(Estado estado) {
 		if (!estado.getEncomendasPorRecolher().isEmpty()) {
-			Nó origem = estado.getEncomendasPorRecolher().get(0).getOrigem();
-			int distânciaAtualARecolha = grafo.distânciaAté(estado.getNóAtual(), origem);
+			No origem = estado.getEncomendasPorRecolher().get(0).getOrigem();
+			int distânciaAtualARecolha = grafo.distânciaAté(estado.getNoAtual(), origem);
 			int distânciaOrigemADestino = grafo.distânciaAté(origem, estado.getEncomendasPorRecolher().get(0).getDestino());
 		
 			return distânciaAtualARecolha + distânciaOrigemADestino;
 		} else {
-			Nó destino = estado.getVeículo().getEncomendas().get(0).getDestino();
-			return grafo.distânciaAté(estado.getNóAtual(), destino);
+			No destino = estado.getVeiculo().getEncomendas().get(0).getDestino();
+			return grafo.distânciaAté(estado.getNoAtual(), destino);
 		}
 	}
 	
 	private ArrayList<Estado> sucessores(Estado estado) {
-		ArrayList<Nó> nósSucessores = grafo.obterNósPossíveis(estado);
+		ArrayList<No> nosSucessores = grafo.obterNosPossiveis(estado);
 		ArrayList<Estado> estadosSucessores = new ArrayList<Estado>();
 		
-		for (Nó sucessor : nósSucessores) {
-			Estado novoEstado = new Estado(sucessor, new Veículo(estado.getVeículo()), new ArrayList<Encomenda>(estado.getEncomendasPorRecolher()));
+		for (No sucessor : nosSucessores) {
+			Estado novoEstado = new Estado(sucessor, new Veiculo(estado.getVeiculo()), new ArrayList<Encomenda>(estado.getEncomendasPorRecolher()));
 			
-			novoEstado.getVeículo().gastarGasolina(grafo.distânciaAté(estado.getNóAtual(), sucessor) * .08);
+			novoEstado.getVeiculo().gastarGasolina(grafo.distânciaAté(estado.getNoAtual(), sucessor) * .08);
 			
-			if (sucessor.getClass().getSimpleName().equals("PontoEntrega")) { // Descarregar veículo
-				Iterator<Encomenda> itEncsVeículo = novoEstado.getVeículo().getEncomendas().iterator();
-				while (itEncsVeículo.hasNext()) {
-					Encomenda enc = itEncsVeículo.next();
+			if (sucessor.getClass().getSimpleName().equals("PontoEntrega")) { // Descarregar veiculo
+				Iterator<Encomenda> itEncsVeiculo = novoEstado.getVeiculo().getEncomendas().iterator();
+				while (itEncsVeiculo.hasNext()) {
+					Encomenda enc = itEncsVeiculo.next();
 					if (enc.getDestino().equals(sucessor)) {
-						novoEstado.getVeículo().decCargaEncomenda(enc);
-						itEncsVeículo.remove();
+						novoEstado.getVeiculo().decCargaEncomenda(enc);
+						itEncsVeiculo.remove();
 					}
 				}
 			}
-			else if (sucessor.getClass().getSimpleName().equals("PontoRecolha")) { // Carregar veículo
-				Iterator<Encomenda> itEncsNó = sucessor.getEncomendasDaqui().iterator();
-				while (itEncsNó.hasNext()) {
-					Encomenda enc = itEncsNó.next();
+			else if (sucessor.getClass().getSimpleName().equals("PontoRecolha")) { // Carregar veiculo
+				Iterator<Encomenda> itEncsNo = sucessor.getEncomendasDaqui().iterator();
+				while (itEncsNo.hasNext()) {
+					Encomenda enc = itEncsNo.next();
 					
 					if (!novoEstado.getEncomendasPorRecolher().contains(enc)) continue; // Se a encomenda já foi carregada previamente
-					if (novoEstado.getVeículo().getCargaAtual() + enc.getVolume() > novoEstado.getVeículo().getCargaMáx()) continue; // Se a encomenda for exceder o limite do veículo
+					if (novoEstado.getVeiculo().getCargaAtual() + enc.getVolume() > novoEstado.getVeiculo().getCargaMáx()) continue; // Se a encomenda for exceder o limite do veiculo
 					
 					novoEstado.getEncomendasPorRecolher().remove(enc);
-					novoEstado.getVeículo().addEncomenda(enc);
+					novoEstado.getVeiculo().addEncomenda(enc);
 				}
 			}
-			else novoEstado.getVeículo().encherDepósito();
+			else novoEstado.getVeiculo().encherDeposito();
 			
 			novoEstado.setPai(estado);
 			
@@ -121,8 +117,8 @@ public class Astar {
 	}
 
 	private void préMapeamento() {
-		for (Nó temp : grafo.getNós().values()) {
-			for (Nó temp_1 : grafo.getNós().values()) {
+		for (No temp : grafo.getNos().values()) {
+			for (No temp_1 : grafo.getNos().values()) {
 				int distance = grafo.distânciaAté(temp, temp_1);
 				temp.addDistânciaMinima(temp,distance);
 				temp_1.addDistânciaMinima(temp_1,distance);

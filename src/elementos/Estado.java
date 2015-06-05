@@ -3,17 +3,17 @@ package elementos;
 import java.util.ArrayList;
 
 public class Estado {
-	private Nó nóAtual;
-	private Veículo veículo;
+	private No noAtual;
+	private Veiculo veiculo;
 	private ArrayList<Encomenda> encomendasPorRecolher;
 	
 	private Estado pai;
 	
 	private int f, g, h;
 	
-	public Estado(Nó nóAtual, Veículo veículo, ArrayList<Encomenda> encomendasPorRecolher) {
-		this.nóAtual = nóAtual;
-		this.veículo = veículo;
+	public Estado(No noAtual, Veiculo veiculo, ArrayList<Encomenda> encomendasPorRecolher) {
+		this.noAtual = noAtual;
+		this.veiculo = veiculo;
 		this.encomendasPorRecolher = encomendasPorRecolher;
 		pai = null;
 		f = 0; g = 0; h = 0;
@@ -23,15 +23,15 @@ public class Estado {
 	public boolean equals(Object obj) {
 		if (obj == null || getClass() != obj.getClass()) return false;
 		Estado est = (Estado) obj;
-		return (nóAtual.getNome().equals(est.nóAtual.getNome()) && getVolumeEncomendasPorRecolher() == est.getVolumeEncomendasPorRecolher() && veículo.getCargaAtual() == est.veículo.getCargaAtual());
+		return (noAtual.getNome().equals(est.noAtual.getNome()) && getVolumeEncomendasPorRecolher() == est.getVolumeEncomendasPorRecolher() && veiculo.getCargaAtual() == est.veiculo.getCargaAtual());
 	}
 	
-	public Nó getNóAtual() {
-		return nóAtual;
+	public No getNoAtual() {
+		return noAtual;
 	}
 	
-	public Veículo getVeículo() {
-		return veículo;
+	public Veiculo getVeiculo() {
+		return veiculo;
 	}
 	
 	public ArrayList<Encomenda> getEncomendasPorRecolher() {
