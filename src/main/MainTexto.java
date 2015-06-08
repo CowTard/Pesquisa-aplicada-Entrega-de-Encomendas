@@ -21,17 +21,16 @@ public class MainTexto {
 		
 		System.out.println("# Pesquisa aplicada à entrega de encomendas");
 		String path = getInput("Nome do ficheiro de nos: ");
-		createNodes(getNodes("./res/mapa_1.txt")); //+ path));
+		createNodes(getNodes("./res/" +  path));
 		
 		path = getInput("Nome do ficheiro de arestas entre nos: ");
-		createConn(getNodes("./res/mapa_1_vz.txt")); // + path));
+		createConn(getNodes("./res/" +  path));
 		
 		path = getInput("Nome do ficheiro de encomendas para nos: ");
-		ArrayList<Encomenda> encs = createEnco(getNodes("./res/mapa_1_mr.txt")); // + path));
+		ArrayList<Encomenda> encs = createEnco(getNodes("./res/" + path));
 		
-		Estado inicial = new Estado(grafo.get("A"), new Veiculo(10, 300), encs);
-		for (Encomenda ee : encs)
-			System.out.println(ee.getOrigem().getNome());
+		Estado inicial = new Estado(grafo.get("A"), new Veiculo(20, 300), encs);
+
 		Astar teste = new Astar(new Grafo(grafo));
 		ArrayList<Estado> caminhoAPercorrer = teste.executar(inicial);
 		

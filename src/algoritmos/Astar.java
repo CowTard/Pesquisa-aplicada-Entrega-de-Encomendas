@@ -27,7 +27,7 @@ public class Astar {
 			listaAberta.remove(menorF);
 			
 			ArrayList<Estado> sucessores = sucessores(menorF);
-			
+
 			pesqSucessores:
 			for (Estado sucessor : sucessores) {
 				if (sucessor.getVolumeEncomendasPorRecolher() == 0 && sucessor.getVeiculo().getCargaAtual() == 0) return construirCaminhoAPartirDe(sucessor);
